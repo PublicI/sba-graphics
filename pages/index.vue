@@ -1,7 +1,5 @@
 <template>
     <div class="basic-text">
-        <!--<p class="chatter">The Center for Public Integrity reached out to all 50 states to ask if candidates running for state office may accept cryptocurrency. In total, {{responded.length-1}} states and D.C. responded.</p>-->
-
        <h4>{{rows.length-1}} states offer some protection for sexual orientation or gender identity</h4>
         <statebin
             :rows="rows"
