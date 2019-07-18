@@ -1,10 +1,10 @@
 <template>
     <div class="basic-text">
-        <h4>{{ rows.length-1 }} states offer some protection for sexual orientation or gender identity</h4>
+        <h4>{{ protections.length-1 }} states offer some protection for sexual orientation or gender identity</h4>
 
         <p style="font-size: 13px;margin-left: 8px;font-weight: bold">State offers protection against<br>workplace discrimination on the basis of:</p>
         <statebin
-            :rows="rows"
+            :rows="protections"
             :labels="[
                 'sexual orientation and gender identity',
                 'sexual orientation',
@@ -13,6 +13,19 @@
             ]"
             :colors="['#F5E205','#F8DC90','#18786a','#94d2cf']"
         />
+
+        <h4>But in {{ ableToFire.length }} states private employers are still able to fire employees for being non-heterosexual or transgender</h4>
+
+        <!--<p style="font-size: 13px;margin-left: 8px;font-weight: bold">State offers protection against<br>workplace discrimination on the basis of:</p>-->
+        <div class="statebin2">
+            <statebin
+                :rows="ableToFire"
+                :labels="[
+                    'able to fire employees for being non-heterosexual or transgender'
+                ]"
+                :colors="['black']"
+            />
+        </div>
     </div>
 </template>
 
@@ -31,14 +44,15 @@ export default {
         const rows = await csvParse(csv);
 
         return {
-            rows
+            protections: rows.filter(state => state.category !== 'able to fire employees for being non-heterosexual or transgender'),
+            ableToFire: rows.filter(state => state.category === 'able to fire employees for being non-heterosexual or transgender')
         };
     }
 };
 </script>
 
-<style scoped>
-h4 {
+<style>
+.basic-text h4 {
     max-width: 400px;
     line-height: 115%;
     padding-left: 8px;
@@ -53,5 +67,11 @@ h4 {
     line-height: 130%;
     color: rgb(100,100,100);
     padding-left: 8px;
+}
+.statebin2 .legendSvg {
+    display: none !important;
+}
+.statebin2 .statebins {
+    margin-top: 0;
 }
 </style>

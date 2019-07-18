@@ -4,7 +4,7 @@
         style="position: relative;"
     >
         <svg
-            style="width:100%;height:130px;position: absolute; top: -95px; left: -12px"
+            class="legendSvg"
         >
             <g
                 class="legendLinear"
@@ -171,6 +171,14 @@ export default {
 </script>
 
 <style lang="less">
+.legendSvg {
+    width:100%;
+    height:130px;
+    position: absolute;
+    top: -95px;
+    left: -12px;
+}
+
 .statebins {
     position: relative;
     width: 300px;
