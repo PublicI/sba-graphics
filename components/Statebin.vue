@@ -4,7 +4,7 @@
         style="position: relative;"
     >
         <svg
-            style="width:100%;height:120px;position: absolute; top: -50px; left: -12px"
+            style="width:100%;height:130px;position: absolute; top: -95px; left: -12px"
         >
             <g
                 class="legendLinear"
@@ -16,7 +16,7 @@
             <div
                 v-for="bin in bins"
                 :key="bin.abbr"
-                :style="(bin.color == '#ffffd4' ? 'color:rgb(210,210,210);' : '') + 'top:' + bin.y + 'px;left:' + bin.x + 'px;background-color:' + bin.color + ';width:' + (boxSize-2) + 'px;height:' + (boxSize-2) + 'px'"
+                :style="(bin.color ? 'color:white;' : 'color: rgb(200,200,200);') + 'top:' + bin.y + 'px;left:' + bin.x + 'px;background-color:' + bin.color + ';width:' + (boxSize-2) + 'px;height:' + (boxSize-2) + 'px'"
                 class="statebin"
             >
                 <!--  v-tooltip="{ content: '<b>' + bin.name + '</b><br>' + bin.formattedRecoveries + ' recoveries' }" -->
@@ -119,19 +119,6 @@ export default {
     mounted() {
         const vm = this;
 
-        vm.$nextTick(() => {
-            const legendLinear = legendColor()
-                .shapeWidth(24)
-                .shapeHeight(24)
-                // .labels(['Allowed','Banned','Banned in House','Debating','None',''])
-                // .labelAlign('end')
-                // .orient('horizontal')
-                // .labelFormat(',')
-                .scale(vm.scale());
-
-            d3.select(vm.$el).select('.legendLinear').call(legendLinear);
-        });
-
         if (typeof window !== 'undefined') {
             if (vm.$el.offsetWidth >= 400) {
                 vm.boxSize = 36;
@@ -147,6 +134,21 @@ export default {
                 }
             });
         }
+
+        vm.$nextTick(() => {
+            const legendLinear = legendColor()
+                .shapeWidth(Math.round(16))
+                .shapeHeight(Math.round(16))
+                .labelWrap(230)
+                // .labels(['Allowed','Banned','Banned in House','Debating','None',''])
+                // .labelAlign('end')
+                // .orient('horizontal')
+                // .labelFormat(',')
+                .scale(vm.scale());
+
+            d3.select(vm.$el).select('.legendLinear').call(legendLinear);
+        });
+
     },
     methods: {
         scale() {
@@ -173,13 +175,13 @@ export default {
     position: relative;
     width: 300px;
     height: 220px;
-    margin-top:40px;
+    margin-top:80px;
 }
 
 .statebin {
     position: absolute;
     background-color: #eee;
-    color: rgb(140,140,140);
+    // color: rgb(140,140,140);
     text-align: center;
     font-size: 12px;
     padding-top: 3px;
@@ -323,7 +325,7 @@ export default {
     font-weight: 400;
     letter-spacing: .3px;
     line-height: 1.5;
-    font-size: 15px;
+    font-size: 13px;
     /*
     font-family: tablet-gothic-n2, tablet-gothic, Helvetica Neue, Helvetica,
         Arial, sans-serif;
@@ -331,6 +333,7 @@ export default {
     line-height: 16px;
     */
     fill: rgb(100, 100, 100);
+    fill: #04284b;;
 }
 
 @media only screen and (min-width: 400px) {

@@ -1,25 +1,29 @@
 <template>
     <div class="basic-text">
-       <h4>{{rows.length-1}} states offer some protection for sexual orientation or gender identity</h4>
+        <h4>{{ rows.length-1 }} states offer some protection for sexual orientation or gender identity</h4>
+
+        <p style="font-size: 13px;margin-left: 8px;font-weight: bold">State offers protection against<br>workplace discrimination on the basis of:</p>
         <statebin
             :rows="rows"
             :labels="[
                 'sexual orientation and gender identity',
                 'sexual orientation',
                 'sexual orientation and gender identity only for public employees',
-                'sexual orientation protections only for public employees'
+                'sexual orientation only for public employees'
             ]"
-            :colors="['red','yellow','blue','green']"
+            :colors="['#F5E205','#F8DC90','#18786a','#94d2cf']"
         />
     </div>
 </template>
 
 <script>
 import Statebin from '~/components/Statebin.vue';
-import { apnumber } from 'journalize';
 import { csvParse } from 'd3';
 
 export default {
+    components: {
+        Statebin
+    },
     async asyncData({ app, error }) {
         const spreadsheetUrl =
             'https://docs.google.com/spreadsheets/d/e/2PACX-1vTtcfC_yOMzJgbPJB4A8j8tOkdFH1quKDKfi30dCZ_dxaK6gCiI-f0-M1r7dONGEkZUEw3LFJBrVF3B/pub?gid=1986764313&single=true&output=csv';
@@ -29,16 +33,6 @@ export default {
         return {
             rows
         };
-    },
-    methods: {
-        apnumber,
-        capfirst(s) {
-            s = s + '';
-            return s.slice(0, 1).toUpperCase() + s.slice(1);
-        }
-    },
-    components: {
-        Statebin
     }
 };
 </script>
