@@ -1,11 +1,10 @@
-# lgbtq-protection-states
-
+# sba-graphics
 > 
 
 ## Build setup
 
 ``` bash
-# serve with hot reload at localhost:3000/lgbtq-protection-states
+# serve with hot reload at localhost:3000/sba-graphics
 $ npm run dev
 
 # build for production and launch server

@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 (function () {
-    var prefix = 'https://apps.publicintegrity.org/lgbtq-protection-states/';
+    var prefix = 'https://apps.publicintegrity.org/sba-graphics/';
 
     try {
         if (!window.pym) {
@@ -13,7 +13,7 @@
         var pymParents = [];
 
         for (var i = 0; i <= 2; i++) {
-            var el = document.getElementById('lgbtq-protection-states' + (i === 0 ? '' : i));
+            var el = document.getElementById('sba-graphics' + (i === 0 ? '' : i));
 
             if (typeof el !== 'undefined' && el) {
                 var inited = el.getAttribute('data-init');
@@ -28,7 +28,7 @@
                     view = '';
                 }
 
-                var parentPym = new window.pym.Parent('lgbtq-protection-states' + (i === 0 ? '' : i), prefix + view, {});
+                var parentPym = new window.pym.Parent('sba-graphics' + (i === 0 ? '' : i), prefix + view, {});
 
                 pymParents.push(parentPym);
             }

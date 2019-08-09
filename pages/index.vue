@@ -1,51 +1,37 @@
 <template>
     <div class="basic-text">
-        <h4>{{ protections.length-1 }} states offer some protection for sexual orientation or gender identity</h4>
-
-        <p style="font-size: 13px;margin-left: 8px;font-weight: bold">State offers protection against<br>workplace discrimination on the basis of:</p>
         <statebin
-            :rows="protections"
-            :labels="[
-                'sexual orientation and gender identity',
-                'sexual orientation',
-                'sexual orientation and gender identity only for public employees',
-                'sexual orientation only for public employees'
-            ]"
-            :colors="['#F5E205','#F8DC90','#18786a','#94d2cf']"
+            :rows="rows"
+            :domain="domain"
+            :colors="colors"
         />
 
-        <h4>But in {{ ableToFire.length }} states private employers are still able to fire employees for being non-heterosexual or transgender</h4>
-
-        <!--<p style="font-size: 13px;margin-left: 8px;font-weight: bold">State offers protection against<br>workplace discrimination on the basis of:</p>-->
-        <div class="statebin2">
-            <statebin
-                :rows="ableToFire"
-                :labels="[
-                    'able to fire employees for being non-heterosexual or transgender'
-                ]"
-                :colors="['black']"
-            />
-        </div>
     </div>
 </template>
 
 <script>
 import Statebin from '~/components/Statebin.vue';
-import { csvParse } from 'd3';
+import { csvParse, extent } from 'd3';
 
 export default {
     components: {
         Statebin
     },
     async asyncData({ app, error }) {
-        const spreadsheetUrl =
-            'https://docs.google.com/spreadsheets/d/e/2PACX-1vTtcfC_yOMzJgbPJB4A8j8tOkdFH1quKDKfi30dCZ_dxaK6gCiI-f0-M1r7dONGEkZUEw3LFJBrVF3B/pub?gid=1986764313&single=true&output=csv';
+
+        const spreadsheetUrl = 'https://docs.google.com/spreadsheets/u/1/d/1zd2xG_TaagAyu4t_YnE-55z-J06veipB3NwCLGSLjgU/export?format=csv&id=1zd2xG_TaagAyu4t_YnE-55z-J06veipB3NwCLGSLjgU&gid=1468857652'
+
         const csv = await app.$axios.$get(spreadsheetUrl);
-        const rows = await csvParse(csv);
+        let rows = await csvParse(csv);
+
+        rows = rows.map(row => { return { State: row.State, Approval_Rate: parseFloat(row.Approval_Rate) } })
+        console.log(rows)
+        console.log(extent(rows.map(row => row.Approval_Rate)))
 
         return {
-            protections: rows.filter(state => state.category !== 'able to fire employees for being non-heterosexual or transgender'),
-            ableToFire: rows.filter(state => state.category === 'able to fire employees for being non-heterosexual or transgender')
+            rows: rows,
+            domain: [0,1],
+            colors: ['white', 'red']
         };
     }
 };

@@ -46,7 +46,7 @@ export default {
                 return [];
             }
         },
-        labels: {
+        domain: {
             type: Array,
             default() {
                 return [];
@@ -107,7 +107,7 @@ export default {
             this.rows.forEach(function(d) {
                 const abbrev = postal(d.state);
                 if (abbrev in binsRef) {
-                    binsRef[abbrev].color = scale(d.category);
+                    binsRef[abbrev].color = scale(d.Approval_Rate);
                     binsRef[abbrev].name = d.state;
                     // binsRef[abbrev].link = d.link;
                 }
@@ -154,11 +154,13 @@ export default {
         scale() {
             // const logScale = d3.scaleLog().domain([1, 8566]);
 
-            const thresholdScale = d3.scaleOrdinal()
-                .domain(this.labels)
+            const linearScale = d3.scaleLinear()
+                .domain(this.domain)
                 .range(this.colors);
 
-            return thresholdScale;
+
+
+            return linearScale;
             /*
             return d3.scaleSequential(d => {
                 console.log(d, quantizeScale(d));

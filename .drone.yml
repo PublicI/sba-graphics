@@ -54,7 +54,7 @@ pipeline:
       status: [ success, failure ]
     template: >
       {{#success build.status}}
-        published https://apps.publicintegrity.org/lgbtq-protection-states/
+        published https://apps.publicintegrity.org/sba-graphics/
       {{else}}
-        failed publishing https://apps.publicintegrity.org/lgbtq-protection-states/
+        failed publishing https://apps.publicintegrity.org/sba-graphics/
       {{/success}}
