@@ -120,8 +120,6 @@ export default {
                 const abbrev = postal(d[this.state_key]);
 
                 if (abbrev in binsRef) {
-                    console.log(abbrev)
-                    console.log(d)
                     binsRef[abbrev].color = scale(d[this.value]);
                     
                     binsRef[abbrev].name = d[this.state_key];
