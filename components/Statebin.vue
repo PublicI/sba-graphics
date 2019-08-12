@@ -25,7 +25,7 @@
                     target="_top"
                     :href="bin.link"
                 >{{ bin.abbrev }}</a>
-                <span v-if="!bin.link">{{ bin.abbrev }}</span>
+                <span v-if="!bin.link">{{ bin.abbrev }}  {{ bin.color }}</span>
             </div>
         </div>
 
@@ -57,7 +57,20 @@ export default {
             default() {
                 return [];
             }
+        },
+        state_key: {
+            type: String,
+            default() {
+                return "state"
+            }
+        },
+        value: {
+            type: String,
+            default() {
+                return "value"
+            }
         }
+
     },
     data() {
         return {
@@ -79,7 +92,6 @@ export default {
             const scale = this.scale();
 
             const binsRef = {};
-            const bins = [];
 
             const boxSize = this.boxSize;
 
@@ -98,22 +110,29 @@ export default {
                         link: null
                     };
 
-                    bins.push(state);
+//                    bins.push(state);
 
                     binsRef[state.abbrev] = state;
                 }
             });
 
-            this.rows.forEach(function(d) {
-                const abbrev = postal(d.state);
+            this.rows.forEach((d) => {
+                const abbrev = postal(d[this.state_key]);
+
                 if (abbrev in binsRef) {
-                    binsRef[abbrev].color = scale(d.Approval_Rate);
-                    binsRef[abbrev].name = d.state;
+                    console.log(abbrev)
+                    console.log(d)
+                    binsRef[abbrev].color = scale(d[this.value]);
+                    
+                    binsRef[abbrev].name = d[this.state_key];
+                    // add link if exists in data
+                    if ('link' in d && d.link != null) {
+                        binsRef[abbrev].link = d.link; 
+                    }
                     // binsRef[abbrev].link = d.link;
                 }
             });
-
-            return bins;
+            return Object.values(binsRef);
         }
     },
     mounted() {
@@ -154,13 +173,13 @@ export default {
         scale() {
             // const logScale = d3.scaleLog().domain([1, 8566]);
 
-            const linearScale = d3.scaleLinear()
+            const quantizeScale = d3.scaleQuantize()
                 .domain(this.domain)
                 .range(this.colors);
 
 
 
-            return linearScale;
+            return quantizeScale;
             /*
             return d3.scaleSequential(d => {
                 console.log(d, quantizeScale(d));

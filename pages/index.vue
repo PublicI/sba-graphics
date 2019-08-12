@@ -4,6 +4,8 @@
             :rows="rows"
             :domain="domain"
             :colors="colors"
+            :state_key="state_key"
+            :value="value"
         />
 
     </div>
@@ -24,14 +26,15 @@ export default {
         const csv = await app.$axios.$get(spreadsheetUrl);
         let rows = await csvParse(csv);
 
-        rows = rows.map(row => { return { State: row.State, Approval_Rate: parseFloat(row.Approval_Rate) } })
-        console.log(rows)
-        console.log(extent(rows.map(row => row.Approval_Rate)))
+        rows = rows.map(row => { return { State: row.State, Approval_Rate: 100*parseFloat(row.Approval_Rate) } })
 
         return {
             rows: rows,
-            domain: [0,1],
-            colors: ['white', 'red']
+            domain: [20,70],
+            //colors: ['white', 'red']
+            colors: ['#fef0d9','#fdcc8a','#fc8d59','#e34a33','#b30000'],
+            state_key: "State",
+            value: "Approval_Rate"
         };
     }
 };
