@@ -1,5 +1,8 @@
 <template>
-    <div class="basic-text">
+    <div class="basic-text"> 
+        <h4>
+            SBA disaster loan approval rates widely vary by state
+        </h4>
         <statebin
             :rows="rows"
             :domain="domain"
@@ -15,6 +18,8 @@
 import Statebin from '~/components/Statebin.vue';
 import { csvParse, extent } from 'd3';
 
+
+
 export default {
     components: {
         Statebin
@@ -26,13 +31,15 @@ export default {
         const csv = await app.$axios.$get(spreadsheetUrl);
         let rows = await csvParse(csv);
 
-        rows = rows.map(row => { return { State: row.State, Approval_Rate: 100*parseFloat(row.Approval_Rate) } })
+        rows = rows.map(row => { return { State: row.State, Approval_Rate: parseFloat(row.Approval_Rate) } })
 
         return {
             rows: rows,
-            domain: [20,70],
+            domain: [0.20,0.70],
             //colors: ['white', 'red']
-            colors: ['#fef0d9','#fdcc8a','#fc8d59','#e34a33','#b30000'],
+            //colors: ['#fef0d9','#fdcc8a','#fc8d59','#e34a33','#b30000'],
+            colors: ['#ffffcc','#a1dab4','#41b6c4','#2c7fb8','#253494'],
+
             state_key: "State",
             value: "Approval_Rate"
         };

@@ -16,7 +16,7 @@
             <div
                 v-for="bin in bins"
                 :key="bin.abbr"
-                :style="(bin.color ? 'color:white;' : 'color: rgb(200,200,200);') + 'top:' + bin.y + 'px;left:' + bin.x + 'px;background-color:' + bin.color + ';width:' + (boxSize-2) + 'px;height:' + (boxSize-2) + 'px'"
+                :style="(bin.color != '#ffffcc' ? 'color:white;' : 'color: rgb(120,120,120);') + 'top:' + bin.y + 'px;left:' + bin.x + 'px;background-color:' + bin.color + ';width:' + (boxSize-2) + 'px;height:' + (boxSize-2) + 'px'"
                 class="statebin"
             >
                 <!--  v-tooltip="{ content: '<b>' + bin.name + '</b><br>' + bin.formattedRecoveries + ' recoveries' }" -->
@@ -29,7 +29,7 @@
             </div>
         </div>
 
-        <!-- <p class="source">Source: Off-Site Source Recovery Program</p> -->
+        <p class="source">Source: Center for Public Integrity analysis of Small Business Administration data</p>
     </div>
 </template>
 
@@ -157,10 +157,11 @@ export default {
                 .shapeWidth(Math.round(16))
                 .shapeHeight(Math.round(16))
                 .labelWrap(230)
-                // .labels(['Allowed','Banned','Banned in House','Debating','None',''])
+                .labels(['20-30%','30-40%','40-50%','50-60%','60-70%'])
                 // .labelAlign('end')
                 // .orient('horizontal')
-                // .labelFormat(',')
+                .title("Approval rate")
+                .labelFormat('.0%')
                 .scale(vm.scale());
 
             d3.select(vm.$el).select('.legendLinear').call(legendLinear);
@@ -194,8 +195,13 @@ export default {
     width:100%;
     height:130px;
     position: absolute;
-    top: -95px;
+    top: -85px;
     left: -12px;
+}
+
+.legendTitle {
+    position: absolute;
+    top: 10px;
 }
 
 .statebins {
