@@ -4,7 +4,7 @@
             SBA Disaster Loan Withdrawals
         </h4>
         <p>
-            Loans the SBA withdrew due to "requested information not [having been] furnished from the applicant"
+            Loans the SBA withdrew because applicants didn't supply requested information - which could include documents destroyed in the disaster
         </p>
         <chart
             :rows="rows"
