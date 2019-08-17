@@ -5,7 +5,7 @@ module.exports = {
      ** Headers of the page
      */
     head: {
-        title: 'lgbtq-protection-states',
+        title: 'sba-graphics',
         meta: [
             { charset: 'utf-8' },
             {
