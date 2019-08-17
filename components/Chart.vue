@@ -1,6 +1,10 @@
 <template>
     <section class="charts">
-        <div v-for="(chart,i) in charts" :key="i" class="chart">
+        <div
+            v-for="(chart, i) in charts"
+            :key="i"
+            class="chart"
+        >
             <highcharts :options="chart" />
         </div>
     </section>
@@ -8,7 +12,6 @@
 
 <script>
 import { Chart } from 'highcharts-vue';
-// import clone from 'lodash.clonedeep';
 
 export default {
     components: {
@@ -47,31 +50,18 @@ export default {
                 return [];
             }
 
-            /*
-            console.log(this.rows)
-
-            const series = Object.keys(this.rows[0])
-                .slice(1)
-                .map(column => {
-                    return {
-                        data: this.rows.map(d => +d[column]),
-                        name: column
-                    };
-                });
-            */
-
             const categories = this.rows.map(d => {
-                return d.Year
+                return d.Year;
             });
 
-            const series = [{
-                data: this.rows.map(d => {
-                    return [d.Year,+d.Count];
-                }),
-                name: 'Count'
-            }];
-
-            console.log(series)
+            const series = [
+                {
+                    data: this.rows.map(d => {
+                        return [d.Year, +d.Count];
+                    }),
+                    name: 'Count'
+                }
+            ];
 
             const options = {
                 colors: [

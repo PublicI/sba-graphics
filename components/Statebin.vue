@@ -1,11 +1,6 @@
 <template>
-    <div
-        class="statebinContainer"
-        style="position: relative;"
-    >
-        <svg
-            class="legendSvg"
-        >
+    <div class="statebinContainer">
+        <svg class="legendSvg">
             <g
                 class="legendLinear"
                 transform="translate(20,20)"
@@ -16,7 +11,22 @@
             <div
                 v-for="bin in bins"
                 :key="bin.abbr"
-                :style="(bin.color != '#ffffcc' ? 'color:white;' : 'color: rgb(120,120,120);') + 'top:' + bin.y + 'px;left:' + bin.x + 'px;background-color:' + bin.color + ';width:' + (boxSize-2) + 'px;height:' + (boxSize-2) + 'px'"
+                :style="
+                    (bin.color != '#ffffcc'
+                        ? 'color:white;'
+                        : 'color: rgb(120,120,120);') +
+                        'top:' +
+                        bin.y +
+                        'px;left:' +
+                        bin.x +
+                        'px;background-color:' +
+                        bin.color +
+                        ';width:' +
+                        (boxSize - 2) +
+                        'px;height:' +
+                        (boxSize - 2) +
+                        'px'
+                "
                 class="statebin"
             >
                 <!--  v-tooltip="{ content: '<b>' + bin.name + '</b><br>' + bin.formattedRecoveries + ' recoveries' }" -->
@@ -24,18 +34,23 @@
                     v-if="bin.link"
                     target="_top"
                     :href="bin.link"
-                >{{ bin.abbrev }}</a>
-                <span v-if="!bin.link">{{ bin.abbrev }}  {{ bin.color }}</span>
+                >{{
+                    bin.abbrev
+                }}</a>
+                <span v-if="!bin.link">{{ bin.abbrev }} {{ bin.color }}</span>
             </div>
         </div>
 
-        <p class="source">Source: Center for Public Integrity analysis of Small Business Administration data</p>
+        <p class="source">
+            Source: Center for Public Integrity analysis of Small Business
+            Administration data
+        </p>
     </div>
 </template>
 
 <script>
-import { postal } from 'journalize'; // intcomma,
-import * as d3 from 'd3';
+import { postal } from 'journalize';
+import { select, scaleQuantize } from 'd3';
 import { legendColor } from 'd3-svg-legend';
 
 export default {
@@ -58,19 +73,18 @@ export default {
                 return [];
             }
         },
-        state_key: {
+        stateKey: {
             type: String,
             default() {
-                return "state"
+                return 'state';
             }
         },
         value: {
             type: String,
             default() {
-                return "value"
+                return 'value';
             }
         }
-
     },
     data() {
         return {
@@ -103,31 +117,30 @@ export default {
                     // eslint-disable-line no-cond-assign
                     const state = {
                         abbrev: m[0],
-                        x: m.index / 3 * boxSize - (boxSize + 2),
+                        x: (m.index / 3) * boxSize - (boxSize + 2),
                         y: i * boxSize,
                         color: null,
                         name: null,
                         link: null
                     };
 
-//                    bins.push(state);
+                    //                    bins.push(state);
 
                     binsRef[state.abbrev] = state;
                 }
             });
 
-            this.rows.forEach((d) => {
-                const abbrev = postal(d[this.state_key]);
+            this.rows.forEach(d => {
+                const abbrev = postal(d[this.stateKey]);
 
                 if (abbrev in binsRef) {
                     binsRef[abbrev].color = scale(d[this.value]);
-                    
-                    binsRef[abbrev].name = d[this.state_key];
+
+                    binsRef[abbrev].name = d[this.stateKey];
                     // add link if exists in data
                     if ('link' in d && d.link != null) {
-                        binsRef[abbrev].link = d.link; 
+                        binsRef[abbrev].link = d.link;
                     }
-                    // binsRef[abbrev].link = d.link;
                 }
             });
             return Object.values(binsRef);
@@ -157,43 +170,38 @@ export default {
                 .shapeWidth(Math.round(16))
                 .shapeHeight(Math.round(16))
                 .labelWrap(230)
-                .labels(['20-30%','30-40%','40-50%','50-60%','60-70%'])
+                .labels(['20-30%', '30-40%', '40-50%', '50-60%', '60-70%'])
                 // .labelAlign('end')
                 // .orient('horizontal')
-                .title("Approval rate")
+                .title('Approval rate')
                 .labelFormat('.0%')
                 .scale(vm.scale());
 
-            d3.select(vm.$el).select('.legendLinear').call(legendLinear);
+            select(vm.$el)
+                .select('.legendLinear')
+                .call(legendLinear);
         });
-
     },
     methods: {
         scale() {
-            // const logScale = d3.scaleLog().domain([1, 8566]);
-
-            const quantizeScale = d3.scaleQuantize()
+            const quantizeScale = scaleQuantize()
                 .domain(this.domain)
                 .range(this.colors);
 
-
-
             return quantizeScale;
-            /*
-            return d3.scaleSequential(d => {
-                console.log(d, quantizeScale(d));
-                return d3.interpolateYlOrBr(quantizeScale(d));
-            });
-            */
         }
     }
 };
 </script>
 
 <style lang="less">
+.statebinContainer {
+    position: relative;
+}
+
 .legendSvg {
-    width:100%;
-    height:130px;
+    width: 100%;
+    height: 130px;
     position: absolute;
     top: -85px;
     left: -12px;
@@ -208,7 +216,7 @@ export default {
     position: relative;
     width: 300px;
     height: 220px;
-    margin-top:80px;
+    margin-top: 80px;
 }
 
 .statebin {
@@ -220,17 +228,17 @@ export default {
     padding-top: 3px;
     line-height: 20px;
     // color: #04284b;
-    font-family: MaisonNeue,Arial,Helvetica,Verdana,sans-serif;
+    font-family: MaisonNeue, Arial, Helvetica, Verdana, sans-serif;
     font-weight: 400;
-    letter-spacing: .3px;
+    letter-spacing: 0.3px;
     line-height: 1.5;
 }
 
 .statebin a {
     // color: rgb(115,115,115);
-    font-family: MaisonNeue,Arial,Helvetica,Verdana,sans-serif;
+    font-family: MaisonNeue, Arial, Helvetica, Verdana, sans-serif;
     font-weight: 400;
-    letter-spacing: .3px;
+    letter-spacing: 0.3px;
     line-height: 1.5;
     text-decoration: none;
     background-image: none;
@@ -263,11 +271,11 @@ export default {
     z-index: 1;
 }
 
-.tooltip[x-placement^='top'] {
+.tooltip[x-placement^="top"] {
     margin-bottom: 5px;
 }
 
-.tooltip[x-placement^='top'] .tooltip-arrow {
+.tooltip[x-placement^="top"] .tooltip-arrow {
     border-width: 5px 5px 0 5px;
     border-left-color: transparent !important;
     border-right-color: transparent !important;
@@ -278,11 +286,11 @@ export default {
     margin-bottom: 0;
 }
 
-.tooltip[x-placement^='bottom'] {
+.tooltip[x-placement^="bottom"] {
     margin-top: 5px;
 }
 
-.tooltip[x-placement^='bottom'] .tooltip-arrow {
+.tooltip[x-placement^="bottom"] .tooltip-arrow {
     border-width: 0 5px 5px 5px;
     border-left-color: transparent !important;
     border-right-color: transparent !important;
@@ -293,11 +301,11 @@ export default {
     margin-bottom: 0;
 }
 
-.tooltip[x-placement^='right'] {
+.tooltip[x-placement^="right"] {
     margin-left: 5px;
 }
 
-.tooltip[x-placement^='right'] .tooltip-arrow {
+.tooltip[x-placement^="right"] .tooltip-arrow {
     border-width: 5px 5px 5px 0;
     border-left-color: transparent !important;
     border-top-color: transparent !important;
@@ -308,11 +316,11 @@ export default {
     margin-right: 0;
 }
 
-.tooltip[x-placement^='left'] {
+.tooltip[x-placement^="left"] {
     margin-right: 5px;
 }
 
-.tooltip[x-placement^='left'] .tooltip-arrow {
+.tooltip[x-placement^="left"] .tooltip-arrow {
     border-width: 5px 0 5px 5px;
     border-top-color: transparent !important;
     border-right-color: transparent !important;
@@ -335,13 +343,13 @@ export default {
     border-color: #f9f9f9;
 }
 
-.tooltip[aria-hidden='true'] {
+.tooltip[aria-hidden="true"] {
     visibility: hidden;
     opacity: 0;
     transition: opacity 0.15s, visibility 0.15s;
 }
 
-.tooltip[aria-hidden='false'] {
+.tooltip[aria-hidden="false"] {
     visibility: visible;
     opacity: 1;
     transition: opacity 0.15s;
@@ -354,9 +362,9 @@ export default {
 }
 
 .legendLinear .label {
-    font-family: MaisonNeue,Arial,Helvetica,Verdana,sans-serif;
+    font-family: MaisonNeue, Arial, Helvetica, Verdana, sans-serif;
     font-weight: 400;
-    letter-spacing: .3px;
+    letter-spacing: 0.3px;
     line-height: 1.5;
     font-size: 13px;
     /*
@@ -366,7 +374,7 @@ export default {
     line-height: 16px;
     */
     fill: rgb(100, 100, 100);
-    fill: #04284b;;
+    fill: #04284b;
 }
 
 @media only screen and (min-width: 400px) {
