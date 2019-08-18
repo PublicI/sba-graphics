@@ -4,7 +4,7 @@
             SBA disaster loan approval rates widely vary by state
         </h4>
 
-        <p><strong>Approval rate</strong></p>
+        <p style="font-size: 14px;margin-top: 6px"><strong>Approval rate</strong></p>
 
         <statebin
             :rows="rows"
@@ -46,7 +46,7 @@ export default {
 
         return {
             rows: rows,
-            domain: [0.2, 0.7],
+            domain: [0.3, 0.4, 0.5, 0.6],
             colors: [
                 '#ffffcc',
                 '#a1dab4',

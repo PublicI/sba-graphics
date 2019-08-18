@@ -46,7 +46,7 @@
 
 <script>
 import { postal } from 'journalize';
-import { select, scaleQuantize } from 'd3';
+import * as d3 from 'd3';
 import { legendColor } from 'd3-svg-legend';
 
 export default {
@@ -162,29 +162,69 @@ export default {
         }
 
         vm.$nextTick(() => {
-            const legendLinear = legendColor()
-                .shapeWidth(40)
-                .shapeHeight(16)
-                .labelWrap(230)
-                .labels(['20%', '30%', '40%', '50%', '60%'])
-                .labelAlign('start')
-                .orient('horizontal')
-                // .title('Approval rate')
-                .labelFormat('.0%')
-                .scale(vm.scale());
 
-            select(vm.$el)
+
+            /*
+            const legendLinear = legendColor()
+                .shapeWidth(45)
+                .shapeHeight(16)
+                .labelWrap(230)*/
+                /*
+                .labels([
+                    '20%',
+                    '30%',
+                    '40%',
+                    '50%',
+                    '60%'
+                    ])*/
+                //.labelAlign('start')
+                //.orient('horizontal')
+                // .title('Approval rate')
+                //.labelFormat('.0%')
+                //.scale(vm.scale());
+
+            d3.select(vm.$el)
                 .select('.legendLinear')
-                .call(legendLinear);
+                .call(this.legend);
         });
     },
     methods: {
         scale() {
-            const quantizeScale = scaleQuantize()
+            return d3.scaleThreshold()
                 .domain(this.domain)
                 .range(this.colors);
+        },
+        legend(g) {
+          // from https://observablehq.com/@d3/threshold-choropleth
+          // credit: Mike Bostock
+          const width = 250;
+          const length = this.scale().range().length;
 
-            return quantizeScale;
+          const x = d3.scaleLinear()
+              .domain([1, length - 1])
+              .rangeRound([width / length, width * (length - 1) / length]);
+
+          g.selectAll('rect')
+            .data(this.scale().range())
+            .join('rect')
+              .attr('height', 8)
+              .attr('x', (d, i) => x(i))
+              .attr('width', (d, i) => x(i + 1) - x(i))
+              .attr('fill', d => d);
+/*
+          g.append('text')
+              .attr('y', -6)
+              .attr('fill', 'currentColor')
+              .attr('text-anchor', 'start')
+              .attr('font-weight', 'bold')
+              .text(data.title);*/
+
+          g.call(d3.axisBottom(x)
+              .tickSize(13)
+              .tickFormat(i => Math.round(this.domain[i - 1]*100) + '%')
+              .tickValues(d3.range(1, length)))
+            .select('.domain')
+              .remove();
         }
     }
 };
@@ -351,7 +391,7 @@ export default {
     font-weight: 400;
     letter-spacing: 0.3px;
     line-height: 1.5;
-    font-size: 13px;
+    font-size: 12px;
     /*
     font-family: tablet-gothic-n2, tablet-gothic, Helvetica Neue, Helvetica,
         Arial, sans-serif;
@@ -360,6 +400,7 @@ export default {
     */
     fill: rgb(100, 100, 100);
     fill: #04284b;
+    position: relative;
 }
 
 @media only screen and (min-width: 400px) {
