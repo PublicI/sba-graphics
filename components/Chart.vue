@@ -14,12 +14,6 @@
 import Highcharts from 'highcharts';
 import { Chart } from 'highcharts-vue';
 
-Highcharts.setOptions({
-    lang: {
-        thousandsSep: ','
-    }
-});
-
 export default {
     components: {
         highcharts: Chart
@@ -196,9 +190,11 @@ export default {
             return [options];
         }
     },
-    created() {
-        this.$emit('init', {
-            // TKTK
+    mounted() {
+        Highcharts.setOptions({
+            lang: {
+                thousandsSep: ','
+            }
         });
     }
 };
