@@ -37,14 +37,10 @@
                 >{{
                     bin.abbrev
                 }}</a>
-                <span v-if="!bin.link">{{ bin.abbrev }} {{ bin.color }}</span>
+                <span v-if="!bin.link">{{ bin.abbrev }}</span>
             </div>
         </div>
 
-        <p class="source">
-            Source: Center for Public Integrity analysis of Small Business
-            Administration data
-        </p>
     </div>
 </template>
 
@@ -167,13 +163,13 @@ export default {
 
         vm.$nextTick(() => {
             const legendLinear = legendColor()
-                .shapeWidth(Math.round(16))
-                .shapeHeight(Math.round(16))
+                .shapeWidth(40)
+                .shapeHeight(16)
                 .labelWrap(230)
-                .labels(['20-30%', '30-40%', '40-50%', '50-60%', '60-70%'])
-                // .labelAlign('end')
-                // .orient('horizontal')
-                .title('Approval rate')
+                .labels(['20%', '30%', '40%', '50%', '60%'])
+                .labelAlign('start')
+                .orient('horizontal')
+                // .title('Approval rate')
                 .labelFormat('.0%')
                 .scale(vm.scale());
 
@@ -203,20 +199,15 @@ export default {
     width: 100%;
     height: 130px;
     position: absolute;
-    top: -85px;
+    top: -35px;
     left: -12px;
-}
-
-.legendTitle {
-    position: absolute;
-    top: 10px;
 }
 
 .statebins {
     position: relative;
     width: 300px;
     height: 220px;
-    margin-top: 80px;
+    // margin-top: 80px;
 }
 
 .statebin {
@@ -354,12 +345,6 @@ export default {
     opacity: 1;
     transition: opacity 0.15s;
 }
-.source {
-    font-size: 14px;
-    line-height: 16px;
-    color: #666;
-    margin-bottom: 15px;
-}
 
 .legendLinear .label {
     font-family: MaisonNeue, Arial, Helvetica, Verdana, sans-serif;
@@ -386,7 +371,7 @@ export default {
     .statebins {
         position: relative;
         width: 420px;
-        height: 350px;
+        height: 320px;
         // margin-top:15px;
     }
 }

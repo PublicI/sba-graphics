@@ -3,6 +3,9 @@
         <h4>
             SBA disaster loan approval rates widely vary by state
         </h4>
+
+        <p><strong>Approval rate</strong></p>
+
         <statebin
             :rows="rows"
             :domain="domain"
@@ -10,6 +13,12 @@
             :state-key="stateKey"
             :value="value"
         />
+
+        <p class="source">
+            Source: Center for Public Integrity analysis of Small Business
+            Administration data
+        </p>
+
     </div>
 </template>
 
@@ -62,6 +71,9 @@ export default {
     padding-top: 0;
     margin-top: 0;
 }
+.basic-text p {
+    padding-left: 8px;
+}
 .chatter {
     max-width: 400px;
     font-size: 15px;
@@ -74,5 +86,13 @@ export default {
 }
 .statebin2 .statebins {
     margin-top: 0;
+}
+
+.source {
+    font-size: 14px;
+    line-height: 16px;
+    color: #666;
+    margin-bottom: 15px;
+    max-width: 400px;
 }
 </style>
