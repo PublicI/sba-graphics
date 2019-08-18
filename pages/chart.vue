@@ -3,10 +3,10 @@
         <h4>
             SBA Disaster Loan Withdrawals
         </h4>
-        <p>
+        <p style="font-size:15px">
             Loans the SBA withdrew because applicants didn't supply requested
-            information - which could include documents destroyed in the
-            disaster
+            information &mdash; which could include documents destroyed in the
+            disaster.
         </p>
         <chart
             :rows="rows"
@@ -55,6 +55,9 @@ export default {
     font-size: 15px;
     line-height: 130%;
     color: rgb(100, 100, 100);
+    padding-left: 8px;
+}
+.basic-text p {
     padding-left: 8px;
 }
 .statebin2 .legendSvg {

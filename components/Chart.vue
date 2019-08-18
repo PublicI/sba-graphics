@@ -11,7 +11,14 @@
 </template>
 
 <script>
+import Highcharts from 'highcharts';
 import { Chart } from 'highcharts-vue';
+
+Highcharts.setOptions({
+    lang: {
+        thousandsSep: ','
+    }
+});
 
 export default {
     components: {
@@ -65,7 +72,7 @@ export default {
 
             const options = {
                 colors: [
-                    '#427aa8',
+                    '#0276e8',
                     '#fa8e1c',
                     '#e95b54',
                     '#6db6b2',
@@ -86,7 +93,7 @@ export default {
                     tickLength: 0,
                     align: 'right',
                     title: {
-                        text: 'Fiscal Year',
+                        text: 'Fiscal year',
                         style: {
                             fontSize: '18px'
                         }
