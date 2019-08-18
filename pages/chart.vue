@@ -1,7 +1,7 @@
 <template>
     <div class="basic-text">
         <h4>
-            SBA Disaster Loan Withdrawals
+            SBA disaster loan withdrawals
         </h4>
         <p style="font-size:15px">
             Loans the SBA withdrew because applicants didn't supply requested
